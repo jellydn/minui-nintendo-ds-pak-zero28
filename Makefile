@@ -5,7 +5,7 @@ PAK_FOLDER := $(shell echo $(PAK_TYPE) | cut -c1)$(shell echo $(PAK_TYPE) | tr '
 PUSH_SDCARD_PATH ?= /mnt/SDCARD
 PUSH_PLATFORM ?= tg5040
 
-PLATFORMS := tg5040
+PLATFORMS := tg5040 zero28
 
 MINUI_POWER_CONTROL_VERSION := 1.1.0
 UNZIP_DEB_URL := https://archive.debian.org/debian/pool/main/u/unzip/unzip_6.0-23+deb10u2_arm64.deb

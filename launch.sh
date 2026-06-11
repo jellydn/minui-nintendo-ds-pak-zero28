@@ -62,7 +62,7 @@ nds_cpu_configure() {
 nds_buffer_size_patch() {
     echo "Custom setting for $PLATFORM"
     case $PLATFORM in
-        tg5040)
+        tg5040|zero28)
             export ALSA_CONFIG_PATH="$BRICK_DEVICE_DIR/alsa/nds_alsa.conf"
             export ALSA_ASOUNDRC="$BRICK_DEVICE_DIR/alsa/.asoundrc"
             ;;
