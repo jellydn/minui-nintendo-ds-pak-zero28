@@ -1,5 +1,13 @@
 #!/bin/sh
-set -euxo pipefail
+set -x
+
+# Safe defaults for unset MinUI vars
+: "${LOGS_PATH:=/tmp}"
+: "${SDCARD_PATH:=/mnt/SDCARD}"
+: "${USERDATA_PATH:=$SDCARD_PATH/.userdata/${PLATFORM:-default}}"
+: "${SHARED_USERDATA_PATH:=$SDCARD_PATH/.userdata/shared}"
+: "${PLATFORM:=tg5040}"
+
 rm -f "$LOGS_PATH/NDS.txt"
 exec >>"$LOGS_PATH/NDS.txt" 2>&1
 
@@ -7,7 +15,15 @@ echo "$0" "$@"
 
 EMU_DIR="$SDCARD_PATH/Emus/$PLATFORM/NDS.pak/drastic"
 PACK_DIR="$SDCARD_PATH/Emus/$PLATFORM/NDS.pak"
-BRICK_DEVICE_DIR="$EMU_DIR/devices/trimui-brick"
+# Use platform-specific device config, fall back to trimui-brick for tg5040/zero28
+case "$PLATFORM" in
+    tg5040|zero28)
+        BRICK_DEVICE_DIR="$EMU_DIR/devices/trimui-brick"
+        ;;
+    *)
+        BRICK_DEVICE_DIR="$EMU_DIR/devices/$PLATFORM"
+        ;;
+esac
 
 SYSTEM_CPU_DIR="/sys/devices/system/cpu/cpufreq"
 # NOTE:(2026-03-29 11:08:18 +07)Most low-end handled devices using share frequency on all core(policy0 affect all available cores). Setting everything here is more than enough
